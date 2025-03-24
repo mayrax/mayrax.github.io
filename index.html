@@ -357,5 +357,42 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
 
+
+
+			<!-- Include the EmailJS SDK -->
+			<script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+			<script type="text/javascript">
+			// Initialize EmailJS with your user ID (replace with your actual EmailJS user ID)
+			emailjs.init("DDmjbIONqrM1ZaE_H");
+
+			document.addEventListener('DOMContentLoaded', function() {
+				// Select the form inside the contact article
+				const contactForm = document.querySelector('article#contact form');
+
+				// Attach the submit event listener to the form
+				contactForm.addEventListener('submit', function(event) {
+				event.preventDefault(); // Prevent the default form submission
+
+				// Gather the form data into an object (make sure the keys match your EmailJS template variables)
+				const templateParams = {
+					from_name: document.querySelector('#contact input[name="name"]').value,
+					reply_to: document.querySelector('#contact input[name="email"]').value,
+					message: document.querySelector('#contact textarea[name="message"]').value,
+					subject: "you got mail."
+				};
+
+				// Send the email using EmailJS
+				emailjs.send('service_mbx34fi', 'template_72jmohe', templateParams)
+					.then(function(response) {
+					console.log('SUCCESS!', response.status, response.text);
+					// Optionally, display a success message to the user
+					}, function(error) {
+					console.error('FAILED...', error);
+					// Optionally, display an error message to the user
+					});
+				});
+			});
+			</script>
+
 	</body>
 </html>
