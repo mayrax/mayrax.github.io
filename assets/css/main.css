@@ -600,10 +600,6 @@ input, select, textarea {
 
 /* Icon */
 
-.fa {
-	font-size: 2em;
-  }	
-
 	.icon {
 		text-decoration: none;
 		border-bottom: none;
@@ -1300,6 +1296,7 @@ input, select, textarea {
 			line-height: 5.5rem;
 			border: solid 1px #ffffff;
 			border-radius: 100%;
+			font-size: 2rem;
 		}
 
 			#header .logo .icon:before {
