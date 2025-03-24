@@ -374,7 +374,7 @@ input, select, textarea {
 
 		}
 
-	label {
+	label, .thank-you {
 		color: #ffffff;
 		display: block;
 		font-size: 0.8rem;
