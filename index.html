@@ -375,7 +375,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 
 				// Gather the form data into an object (make sure the keys match your EmailJS template variables)
 				const templateParams = {
-					from_name: document.querySelector('#contact input[name="name"]').value,
+					name: document.querySelector('#contact input[name="name"]').value,
 					reply_to: document.querySelector('#contact input[name="email"]').value,
 					message: document.querySelector('#contact textarea[name="message"]').value,
 					subject: "you got mail."
