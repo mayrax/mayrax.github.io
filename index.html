@@ -362,46 +362,44 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 			<!-- Include the EmailJS SDK -->
 			<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 			<script type="text/javascript">
-			// Initialize EmailJS with your user ID (replace with your actual EmailJS user ID)
+				
 			emailjs.init("DDmjbIONqrM1ZaE_H");
 
-			document.addEventListener('DOMContentLoaded', function() {
-				// Select the form inside the contact article
+			document.addEventListener('DOMContentLoaded', () => {
 				const contactForm = document.querySelector('article#contact form');
+				const messageTextArea = document.querySelector('#contact textarea[name="message"]');
 
-				// Attach the submit event listener to the form
-				contactForm.addEventListener('submit', function(event) {
-				event.preventDefault(); // Prevent the default form submission
-
-				// Gather the form data into an object (make sure the keys match your EmailJS template variables)
-				const templateParams = {
-					name: document.querySelector('#contact input[name="name"]').value,
-					reply_to: document.querySelector('#contact input[name="email"]').value,
-					message: document.querySelector('#contact textarea[name="message"]').value,
-					subject: "you got mail."
+				const createThankYouMessage = () => {
+					const thankYouMessage = document.createElement('p');
+					thankYouMessage.textContent = 'Thanks for reaching out! I will get back to you soon.';
+					thankYouMessage.classList.add('thank-you');
+					return thankYouMessage;
 				};
 
-				// Send the email using EmailJS
-				emailjs.send('service_mbx34fi', 'template_72jmohe', templateParams)
-				.then(function(response) {
-				console.log('SUCCESS!', response.status, response.text);
-				
-				// Create the thank-you message element
-				const thankYouMessage = document.createElement('p');
-				thankYouMessage.textContent = 'Thanks for reaching out! I will get back to you soon.';
-				thankYouMessage.classList.add('thank-you');
+				const handleFormSubmit = async (event) => {
+					event.preventDefault();
 
-				// Insert the thank-you message after the text area
-				const textArea = document.querySelector('#contact textarea[name="message"]');
-				textArea.insertAdjacentElement('afterend', thankYouMessage);
+					const templateParams = {
+						name: document.querySelector('#contact input[name="name"]').value,
+						reply_to: document.querySelector('#contact input[name="email"]').value,
+						message: messageTextArea.value,
+						subject: "you got mail."
+					};
 
-				// Optionally, clear the form fields
-				contactForm.reset();
-				}, function(error) {
-				console.error('FAILED...', error);
-				});
+					try {
+						const response = await emailjs.send('service_mbx34fi', 'template_72jmohe', templateParams);
+						console.log('SUCCESS!', response.status, response.text);
+
+						document.querySelector('.thank-you')?.remove();
+						messageTextArea.insertAdjacentElement('afterend', createThankYouMessage());
+						contactForm.reset();
+					} catch (error) {
+						console.error('FAILED...', error);
+					}
+				};
+
+				contactForm.addEventListener('submit', handleFormSubmit);
 			});
-		});
-		</script>
+			</script>
 	</body>
 </html>
